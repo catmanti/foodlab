@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 from django.utils.translation import gettext_lazy as _
 
 
@@ -78,7 +79,9 @@ class FoodParameter(models.Model):
 
 
 class Sample(models.Model):
-    sampleid = models.CharField(max_length=12, unique=True)
+    sampleid = models.CharField(
+        max_length=12, unique=True, blank=True, editable=False, default=""
+    )
     foodtype = models.ForeignKey(FoodType, on_delete=models.CASCADE)
     MOHArea = models.ForeignKey(
         MOHArea,
@@ -90,3 +93,30 @@ class Sample(models.Model):
     )
     date_collected = models.DateField()
     analysis_by = models.ForeignKey(StaffMember, on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        if not self.sampleid:  # Only generate if sampleid is not set
+            current_year = date.today().year
+            last_two_digits = str(current_year)[-2:]  # Extract last two digits of year
+
+            # Get the last sampleid for the current year
+            last_sample = (
+                Sample.objects.filter(sampleid__endswith=f"/{last_two_digits}")
+                .order_by("-id")
+                .first()
+            )
+
+            if last_sample:
+                last_number = int(
+                    last_sample.sampleid.split("/")[1]
+                )  # Extract number part
+                new_number = last_number + 1
+            else:
+                new_number = 1  # Start from 1 if no records exist
+
+            self.sampleid = f"PFL/{new_number}/{last_two_digits}"
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.sampleid} -{self.PHIArea} - {self.foodtype}  "

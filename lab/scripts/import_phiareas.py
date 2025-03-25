@@ -1,7 +1,7 @@
 import csv
 import os
 from django.core.exceptions import ObjectDoesNotExist
-from htmxapp.models import (
+from lab.models import (
     PHIArea,
     MOHArea,
 )  # Replace 'htmxapp' with your actual app name

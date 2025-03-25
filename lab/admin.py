@@ -7,6 +7,8 @@ from .models import (
     FoodType,
     Parameter,
     FoodParameter,
+    Sample,
+    StaffMember,
 )
 
 admin.site.register(District)
@@ -16,3 +18,5 @@ admin.site.register(FoodCategory)
 admin.site.register(FoodType)
 admin.site.register(Parameter)
 admin.site.register(FoodParameter)
+admin.site.register(Sample)
+admin.site.register(StaffMember)

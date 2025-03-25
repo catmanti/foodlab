@@ -1,7 +1,7 @@
 import csv
 import os
 from django.core.exceptions import ObjectDoesNotExist
-from htmxapp.models import (
+from lab.models import (
     FoodParameter,
     FoodType,
     Parameter,

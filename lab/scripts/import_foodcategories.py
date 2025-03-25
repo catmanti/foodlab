@@ -1,6 +1,6 @@
 import csv
 import os
-from htmxapp.models import FoodCategory  # Replace 'htmxapp' with your actual app name
+from lab.models import FoodCategory  # Replace 'htmxapp' with your actual app name
 
 
 def run():

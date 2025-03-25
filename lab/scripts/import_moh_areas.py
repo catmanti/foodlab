@@ -1,10 +1,12 @@
 import csv
 import os
 from django.core.exceptions import ObjectDoesNotExist
-from htmxapp.models import (
+from lab.models import (
     MOHArea,
     District,
 )  # Replace 'yourapp' with your actual app name
+
+# python manage.py runscript import_moh_areas
 
 
 def run():
