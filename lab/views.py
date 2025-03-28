@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect
-from .models import MOHArea
-from .forms import MOHAreaForm
+from .models import MOHArea, Sample
+from .forms import MOHAreaForm, SampleForm
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView
 
 
 def home(request):
@@ -22,6 +24,18 @@ def moharea_add(request):
     return render(request, "lab/moharea_form.html", {"form": form})
 
 
+class MOHAreaCreateView(CreateView):
+    """
+    View to handle the creation of a new MOHArea instance.
+    Same as moharea_add
+    """
+
+    model = MOHArea
+    form_class = MOHAreaForm
+    template_name = "lab/moharea_form.html"
+    success_url = reverse_lazy("home")
+
+
 def moharea_edit(request, moharea_id):
     """
     View to handle the editing of an existing MOHArea instance.
@@ -35,3 +49,17 @@ def moharea_edit(request, moharea_id):
     else:
         form = MOHAreaForm(instance=moharea)
     return render(request, "lab/moharea_form.html", {"form": form})
+
+
+class MOHAreaUpdateView(UpdateView):
+    model = MOHArea
+    form_class = MOHAreaForm
+    template_name = "lab/moharea_form.html"
+    success_url = reverse_lazy("home")
+
+
+class SampleCreateView(CreateView):
+    model = Sample
+    form_class = SampleForm
+    template_name = "lab/moharea_form.html"
+    success_url = reverse_lazy("home")

@@ -17,11 +17,25 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
-from lab.views import moharea_add, moharea_edit, home
+from lab.views import (
+    moharea_add,
+    moharea_edit,
+    home,
+    MOHAreaCreateView,
+    MOHAreaUpdateView,
+    SampleCreateView,
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home, name="home"),
     path("moharea/add/", moharea_add, name="moharea_add"),
+    path("moharea/create/", MOHAreaCreateView.as_view(), name="moharea_create"),
     path("moharea/edit/<int:moharea_id>/", moharea_edit, name="moharea_edit"),
+    path(
+        "moharea/update/<int:pk>/",
+        MOHAreaUpdateView.as_view(),
+        name="moharea_update",
+    ),
+    path("sample/create/", SampleCreateView.as_view(), name="sample_create"),
 ]
