@@ -14,9 +14,9 @@ class District(models.Model):
 class MOHArea(models.Model):
     name = models.CharField(max_length=50)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
-    address = models.CharField(max_length=100, null=True)
-    phone = models.CharField(max_length=20, null=True)
-    email = models.EmailField(null=True)
+    address = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=20, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return self.name

@@ -1,14 +1,15 @@
-{% extends "lab/base.html" %}
-{% load crispy_forms_tags %}
-{% block content %}
-  <div class="container mt-4">
-    <h2>MOH Area Form</h2>
-    <form method="post" novalidate>
-      {% csrf_token %}
-      <div class="mb-3">
-        {{ form|crispy }}
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+{% load django_bootstrap5 static crispy_forms_tags %}
+
+{% if form.instance.id %}
+  <form method="post" action="{% url 'moharea_edit' moharea_id=form.instance.id %}" style="margin-left:100px; margin-right:100px">
+{% else %}
+  <form method="post" action="{% url 'moharea_create' %}" style="margin-left:100px; margin-right:100px;">
+{% endif %}
+  {% csrf_token %}
+  <div class="mb-3">
+    {{ form|crispy }}
   </div>
-{% endblock %}
+  {% if form %}
+  <button type="submit" class="btn btn-primary"  >Submit</button>
+  {% endif %}
+</form>

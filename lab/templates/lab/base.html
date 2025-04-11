@@ -1,47 +1,80 @@
-{% load django_bootstrap5 %}
+{% load django_bootstrap5 static %}
 {% block extra_css %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 {% endblock %}
 <!DOCTYPE html>
 <html lang="en">
+<meta charset="UTF-8">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <script src="{% static 'lab/js/script.js' %}"></script>
     <style>
-        {% comment %} .container {
-            background-color: bisque;
-            min-height: 50px;
+        body {
+            font-family: "Roboto", sans-serif
         }
 
-        div {
-            border-style: solid;
-            border-color: yellowgreen;
-            min-height: 50px;
-        }
-
-        .setwidth {
-            width: 1320px;
-        }
-
-        .col {
-            background-color: beige;
-            min-height: 50px;
-        } {% endcomment %}
-
-        h1 {
-            color: orange;
+        .w3-bar-block .w3-bar-item {
+            padding: 16px;
+            font-weight: bold;
         }
     </style>
-    <title>Document</title>
+    <title>{% block title %}Food Lab{% endblock title %}</title>
 </head>
 
 <body class="bg-light">
+    {% block navbar %}
     {% include 'lab/navbar.html' %}
+    {% endblock navbar %}
     {% block content %} {% endblock content %}
+    <script>
+        // Open and close the sidebar on medium and small screens
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+            document.getElementById("myOverlay").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("myOverlay").style.display = "none";
+        }
+
+        // Change style of top container on scroll
+        window.onscroll = function () { myFunction() };
+        function myFunction() {
+            if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+                document.getElementById("myTop").classList.add("w3-card-4", "w3-animate-opacity");
+                document.getElementById("myIntro").classList.add("w3-show-inline-block");
+            } else {
+                document.getElementById("myIntro").classList.remove("w3-show-inline-block");
+                document.getElementById("myTop").classList.remove("w3-card-4", "w3-animate-opacity");
+            }
+        }
+
+        // Accordions
+        function myAccordion(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+                x.previousElementSibling.className += " w3-theme";
+            } else {
+                x.className = x.className.replace("w3-show", "");
+                x.previousElementSibling.className =
+                    x.previousElementSibling.className.replace(" w3-theme", "");
+            }
+        }
+        {% comment %} // HTMX
+        document.body.addEventListener('htmx:configRequest', (event) => {
+            const token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            event.detail.headers['X-CSRFToken'] = token;
+        }); {% endcomment %}
+    </script>
 </body>
 
 </html>

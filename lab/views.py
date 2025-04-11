@@ -4,10 +4,13 @@ from .models import MOHArea, Sample
 from .forms import MOHAreaForm, SampleForm
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
 
 
 def home(request):
-    return render(request, "lab/home.html", {"count": range(15)})
+    mohareas = MOHArea.objects.all()
+    context = {"mohareas": mohareas}
+    return render(request, "lab/home.html", context)
 
 
 def moharea_add(request):
@@ -40,15 +43,28 @@ def moharea_edit(request, moharea_id):
     """
     View to handle the editing of an existing MOHArea instance.
     """
+    print("Edit-Method")
     moharea = get_object_or_404(MOHArea, pk=moharea_id)
     if request.method == "POST":
+        print("Post-Method")
         form = MOHAreaForm(request.POST, instance=moharea)
         if form.is_valid():
             form.save()
             return redirect("home")  # Replace with your success URL
     else:
+        print("Get-Method")
         form = MOHAreaForm(instance=moharea)
     return render(request, "lab/moharea_form.html", {"form": form})
+
+
+# def moharea_edit(request):
+#     MOHAreaID = int(request.POST.get("MOHAreaId"))
+#     mohName = request.POST.get("mohareaName")
+#     moharea = MOHArea.objects.get(id=MOHAreaID)
+#     moharea.name = mohName
+#     moharea.save()
+#     mohList = MOHArea.objects.all().order_by("name")
+#     return render(request, "lab/moharea_form.html", {"mohList": mohList})
 
 
 class MOHAreaUpdateView(UpdateView):
@@ -63,3 +79,8 @@ class SampleCreateView(CreateView):
     form_class = SampleForm
     template_name = "lab/moharea_form.html"
     success_url = reverse_lazy("home")
+
+
+class MOHAreaListView(ListView):
+    model = MOHArea
+    template_name = "lab/home.html"

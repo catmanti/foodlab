@@ -24,6 +24,7 @@ from lab.views import (
     MOHAreaCreateView,
     MOHAreaUpdateView,
     SampleCreateView,
+    MOHAreaListView,
 )
 
 urlpatterns = [
@@ -38,4 +39,5 @@ urlpatterns = [
         name="moharea_update",
     ),
     path("sample/create/", SampleCreateView.as_view(), name="sample_create"),
+    path("moharea/list/", MOHAreaListView.as_view(), name="moharea_list"),
 ]

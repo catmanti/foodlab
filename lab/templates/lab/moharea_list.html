@@ -1,0 +1,4 @@
+ {% load crispy_forms_tags %}
+ {% for moharea in moharea_list %}
+ <li><a href="{% url 'moharea_edit' moharea_id=moharea.id %}">{{ moharea.name }}</a></li>
+ {% endfor %}
